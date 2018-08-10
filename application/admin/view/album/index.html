@@ -1,0 +1,453 @@
+{include file="public/header" /}
+<style type="text/css">
+    .laytable-cell-1-photo,
+    .laytable-cell-2-photo,
+    .laytable-cell-3-photo,
+    .laytable-cell-4-photo,
+    .laytable-cell-5-photo,
+    .laytable-cell-6-photo,
+    .laytable-cell-7-photo,
+    .laytable-cell-8-photo,
+    .laytable-cell-9-photo,
+    .laytable-cell-10-photo { /*图片样式*/
+        height: 100%;
+        max-width: 100%;
+    }
+
+    body {
+        overflow-y: scroll;
+    }
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{$leibie}列表</h5>
+        </div>
+
+
+        <div class="ibox-content">
+            <!--搜索框开始-->
+            <form class="layui-form" action="" style="">
+                <div class="layui-form-item">
+
+                    <div class="layui-input-inline" style="WIDTH: 20%;">
+                        <select name="users" id="cid"  lay-filter="cid">
+                            <option value="0">选择相册</option>
+                            {volist name="users" id="vo"}
+                            <option value="{$vo.id}">{$vo.classname}</option>
+                            {/volist}
+                        </select>
+                    </div>
+
+                          <span class="input-group-btn">
+                            <button   class="btn btn-primary" lay-submit="" lay-filter="demo1">
+                                <i class="fa fa-search"></i> 搜索</button>
+                        </span>
+
+                </div>
+
+            </form>
+
+
+            <!--搜索框结束-->
+
+
+            <!--<div class="hr-line-dashed"></div>-->
+            <div class="example-wrap">
+                <div class="example">
+                    <div class="layui-btn-group toolTable">
+                        <button class="layui-btn layui-btn-danger layui-btn-sm" data-type="deleteSelecteds"><i
+                                class="layui-icon">&#xe640;</i>删除
+                        </button>
+                        <a href="{:url('add')}" style="margin-left: 10px;">
+                            <button class=" layui-btn layui-btn-sm" type="button"><i class="layui-icon">&#xe61f;</i>添加
+                            </button>
+                        </a>
+                    </div>
+                    <table id="member" lay-filter="member"></table>
+                    <script type="text/html" id="barDemo">
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                    </script>
+                </div>
+            </div>
+            <!-- End Example Pagination -->
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+
+
+<!-- 加载动画 -->
+
+
+{include file="public/footer" /}
+
+
+<!--状态的模板-->
+<script type="text/html" id="statusTpl">
+
+    {{# if(d.shenhe==1){ }}
+    <a href="javascript:;" onclick="member_status({{d.manid}});">
+        <div id="zt{{d.id}}"><span class="label label-info">开启</span></div>
+    </a>
+    {{# }else{ }}
+    <a href="javascript:;" onclick="member_status({{d.id}});">
+        <div id="zt{{d.id}}"><span class="label label-danger">禁用</span></div>
+    </a>
+    {{# } }}
+
+</script>
+<!--状态的模板-->
+<script src="__JS__/jquery-3.2.1.min.js"></script>
+
+<!--图片的模版-->
+<script type="text/html" id="picname">
+
+    <span class="fangda">
+        <img id="img_data" onclick="fangda(this);" style="  width: 301px; height: 126px;"
+             src="/uploads/images/{{d.picname}}"/>
+    </span>
+
+
+</script>
+
+
+<script>
+    // 点击放大
+
+    function fangda(obj) {
+        console.log(obj);
+        $(document.body).prepend("<div class='createp'> <img src='" + obj.src + "' style='width: 900px;' > <div>")
+    }
+
+
+    $(document.body).on("click", ".createp img", function () {
+        $(this).parent().remove();
+    });
+
+
+</script>
+<!--图片的模版-->
+
+<style>
+    .layui-table-cell {
+        height: 100px;
+    }
+
+    .createp {
+        position: fixed;
+        width: 65%;
+        height: 500px;
+        top: 50px;
+        right: 15%;
+        text-align: center;
+        z-index: 999;
+    }
+</style>
+
+<script type="text/javascript">
+    layui.use(['form', 'element', 'table', 'jquery'], function () {
+        var table = layui.table
+            , form = layui.form
+            , element = layui.element;
+
+        var $ = layui.$ //重点处
+            , layer = layui.layer;
+
+        form.on('select(cid)', function (data) {
+            //执行重载
+            table.reload('memberReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                   cid: $("#cid").val()
+                }
+            });
+            // privilege
+        });
+
+        table.render({
+            elem: '#member'
+            , url: '/admin/album/getList'
+            , cols: [[
+                {type: 'checkbox'}
+                , {
+                    field: 'picname',
+                    title: '图片',
+                    templet: '#picname',
+                    width: 200,
+                    align: 'center',
+                    sort: true,
+                    unresize:
+                        false
+                }
+                , {
+                    field: 'title', title: '标题', event: 'title', width: 230, align: 'center', sort:
+                        true
+                }
+                // , {
+                //     field: 'addtime', title: '添加时间', event: 'update_datetime', width: 230, align: 'center', sort:
+                //         true
+                // }
+                , {field: 'classname', title: '图片类别', align: 'center', event: 'titlekind'}
+                // , {field: 'index_order_is', title: '排序',  event: 'order', align: 'order', sort: true, unresize:
+                //         false}
+                // , {
+                //     field: 'shenhe', title: '审核', event: 'shenhe', templet: '#statusTpl', align: 'order', unresize:
+                //         false
+                // }
+                , {title: '操作', align: 'center', width: 180, toolbar: '#barDemo'}
+            ]]
+            , id: 'memberReload'//会员列表重载
+            , limit: 10
+            // , width:1400
+            , page: true
+
+        });
+
+
+        <!--会员列表重载-->
+        var $ = layui.$, active = {
+            reload: function () {
+                var username = $('#username');//用户名
+                var pid = $("#pid");
+
+                //当前页面条件查询时  执行重载
+                table.reload('memberReload', {
+
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    // ,url: '/api/table/search'
+                    , where: {
+                        username: username.val(),
+                        pid: pid.val(),
+                        phone: phone.val()
+                    }
+                });
+            },
+
+            deleteSelecteds: function () { //获取选中数据
+                var checkStatus = table.checkStatus('memberReload')
+                    , data = checkStatus.data;
+                var ids = "";
+                for (var i = 0; i < data.length; i++) {
+                    var val = data[i].id;//注意修改主键pk字段  /*zzy*/
+                    if (ids.length > 0) {
+                        ids += ',';
+                    }
+                    ids += val;
+                }
+
+                if (data.length > 0) {
+                    lunhui.deletes(ids, '{:url("delSelecteds")}');
+                } else {
+                    layer.msg('请选中需要删除的数据', {icon: 0, time: 1500}, function (index) {
+                        layer.close(index);
+                    });
+                }
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        <!--会员列表重载-->
+
+        <!--增删改查的操作-->
+        $('.toolTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        <!--增删改查的操作-->
+
+        //监听工具条
+        table.on('tool(member)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    //删除tabel这一行显示
+                    obj.del();
+                    del_member(data.id);
+                    layer.close(index);
+                });
+            }
+
+            //修改跳转页面
+            if (obj.event === 'edit') {
+                window.location = './edit?id=' + data.id;
+            }
+
+            if (obj.event === 'order') {
+                layer.prompt({
+                    formType: 2
+                    , title: '修改排序号 [' + data.index_order_is + '] '
+                    , value: data.index_order_is
+                }, function (value, index) {
+                    layer.close(index);
+
+                    //这里一般是发送修改的Ajax请求
+                    $.ajax({
+                        type: 'POST',
+                        url: "./edit", // ajax请求路径
+                        data: {
+                            id: data.id,
+                            index_order_is: value
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            //调用弹窗显示信息
+                            layer.msg(data['msg']);
+
+                            if (data.code == 1) {
+
+                                //同步更新表格和缓存对应的值
+                                obj.update({
+                                    index_order_is: value
+                                });
+
+                            }
+
+                        }
+
+                    });
+
+                });
+            }
+
+
+            if (obj.event === 'title') {
+                layer.prompt({
+                    formType: 2
+                    , title: '修改名称'
+                    , value: data.title
+                }, function (value, index) {
+                    layer.close(index);
+
+                    //这里一般是发送修改的Ajax请求
+                    $.ajax({
+                        type: 'POST',
+                        url: "./edit", // ajax请求路径
+                        data: {
+                            id: data.id,
+                            title: value
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            //调用弹窗显示信息
+                            layer.msg(data['msg']);
+
+                            if (data.code == 1) {
+
+                                //同步更新表格和缓存对应的值
+                                obj.update({
+                                    title: value
+                                });
+
+                            }
+
+                        }
+
+                    });
+
+                });
+            }
+
+            if (obj.event === 'en_title') {
+                layer.prompt({
+                    formType: 2
+                    , title: '修改en_title'
+                    , value: data.en_title
+                }, function (value, index) {
+                    layer.close(index);
+
+                    //这里一般是发送修改的Ajax请求
+                    $.ajax({
+                        type: 'POST',
+                        url: "./edit", // ajax请求路径
+                        data: {
+                            id: data.id,
+                            en_title: value
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            //调用弹窗显示信息
+                            layer.msg(data['msg']);
+
+                            if (data.code == 1) {
+
+                                //同步更新表格和缓存对应的值
+                                obj.update({
+                                    en_title: value
+                                });
+
+                            }
+
+                        }
+
+                    });
+
+                });
+            }
+
+            if (obj.event === 'content') {
+                layer.prompt({
+                    formType: 2
+                    , content: '修改content'
+                    , value: data.content
+                }, function (value, index) {
+                    layer.close(index);
+
+                    //这里一般是发送修改的Ajax请求
+                    $.ajax({
+                        type: 'POST',
+                        url: "./edit", // ajax请求路径
+                        data: {
+                            id: data.id,
+                            content: value
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            //调用弹窗显示信息
+                            layer.msg(data['msg']);
+
+                            if (data.code == 1) {
+
+                                //同步更新表格和缓存对应的值
+                                obj.update({
+                                    content: value
+                                });
+
+                            }
+
+                        }
+
+                    });
+
+                });
+            }
+
+        });
+
+    });
+
+
+    //删除会员
+    function del_member(id) {
+        lunhui.delete(id, '{:url("del")}');
+    }
+
+    //用户会员
+    function member_status(id) {
+        lunhui.status(id, '{:url("member_status")}');
+    }
+
+</script>
+
+</body>
+</html>

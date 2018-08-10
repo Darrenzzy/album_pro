@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)https://ask.dxy.com/ama/index#/mine/ -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>个人中心</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="google-site-verification" content="j4dW_q1WJ86iB0CW4DEMCrcP53LY0O0gqJfnxklmR_M">
+    <link rel="icon" type="image/x-icon" href="https://assets.dxycdn.com/gitrepo/ask-vue/images/favicon.ico">
+    <link href="__personal__/app.de617afc90a8fcb676b29b966fd4645c.css" rel="stylesheet">
+    <style type="text/css">.gloable-mask {
+        background: transparent
+    }
+
+    .gloable-mask.mask_no-transparent {
+        background: rgba(0, 0, 0, .5);
+        z-index: 2001
+    }</style>
+    <style type="text/css">.dialog__inner {
+        position: fixed;
+        z-index: 102;
+        width: 86%;
+        max-width: 300px;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        overflow: hidden
+    }
+
+    .dialog__hd {
+        padding-top: 10px
+    }
+
+    .dialog__title {
+        font-weight: 400;
+        font-size: 1.6rem
+    }
+
+    .dialog__bd {
+        padding: 15px 4%;
+        font-size: 1.4rem;
+        word-wrap: break-word;
+        word-break: break-all;
+        color: #666
+    }
+
+    .dialog__ft {
+        position: relative;
+        height: 50px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center
+    }
+
+    .dialog__ft:before {
+        content: "";
+        width: 100%;
+        height: 1px;
+        -webkit-transform: scaleY(.5);
+        transform: scaleY(.5);
+        left: 0;
+        top: -1px;
+        display: block;
+        background-color: #d9d9d9;
+        position: absolute;
+        -webkit-transform-origin: 0 100%;
+        transform-origin: 0 100%
+    }
+
+    .dialog__btn {
+        font-size: 1.6rem;
+        display: inline-block;
+        -webkit-box-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        background-color: transparent;
+        height: 100%;
+        position: relative
+    }
+
+    .dialog__btn:first-child:after {
+        display: block;
+        background-color: #d9d9d9;
+        position: absolute;
+        -webkit-transform-origin: 0 100%;
+        transform-origin: 0 100%;
+        content: "";
+        width: 1px;
+        height: 100%;
+        -webkit-transform: scaleX(.5);
+        transform: scaleX(.5);
+        right: 0;
+        top: 0
+    }
+
+    .dialog__btn:last-child:after {
+        display: none
+    }
+
+    .dialog__btn_cancel {
+        color: #333
+    }
+
+    .dialog__btn_confirm {
+        color: #1a9f8c
+    }</style>
+    <style type="text/css">.coupon__dialog .ticket__inner {
+        width: 100%
+    }
+
+    .coupon__dialog .ticket {
+        top: 0;
+        margin: 0
+    }
+
+    .coupon__dialog .ticket_card:after, .coupon__dialog .ticket_card:before {
+        background: rgba(0, 0, 0, .6)
+    }
+
+    .coupon__dialog .ticket_card__content {
+        padding: 18px 12px
+    }
+
+    .coupon__dialog .ticket__bottom {
+        padding: 20px
+    }
+
+    .coupon__dialog .ticket__txt {
+        text-align: left
+    }
+
+    .coupon__dialog .ticket__txt .tag, .coupon__dialog .ticket__txt p {
+        margin-top: 4px
+    }
+
+    .coupon__dialog .modal__dialog {
+        background: transparent
+    }
+
+    .coupon__dialog .modal__dialog .modal__body {
+        padding: 0
+    }
+
+    .coupon__dialog .modal__dialog .card__footer .icon-close {
+        color: #fff;
+        font-size: 4rem
+    }
+
+    .coupon__dialog .button__inner {
+        display: block;
+        background: hsla(0, 0%, 100%, .5);
+        position: absolute;
+        transition: width 2s;
+        height: 100%;
+        width: 0
+    }</style>
+    <style type="text/css">.dialog-code__model .modal__dialog {
+        border-radius: 12px;
+        overflow: visible
+    }
+
+    .dialog-code {
+        left: 50%;
+        margin-left: -145px;
+        width: 290px;
+        height: 290px
+    }
+
+    .dialog-code__footer {
+        position: absolute;
+        left: 50%;
+        bottom: -40px;
+        z-index: 4;
+        margin-left: -10px
+    }
+
+    .dialog-code__footer .icon-close {
+        color: #fff;
+        font-size: 3rem
+    }
+
+    .dialog-code__body {
+        position: relative;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: transparent;
+        margin: 0;
+        padding: 0
+    }
+
+    .dialog-code__qrcode {
+        padding-top: 72px;
+        margin: 0
+    }
+
+    .dialog-code__qrcode .img-wp {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto
+    }
+
+    .dialog-code__msg {
+        font-size: 1.3rem;
+        color: #666;
+        margin-top: 10px
+    }
+
+    .dialog-code__header {
+        width: 73px;
+        height: 73px;
+        display: block;
+        position: absolute;
+        top: -46px;
+        left: 50%;
+        margin-left: -36px;
+        background-color: #41b2a6;
+        border-radius: 6px;
+        overflow: hidden
+    }
+
+    @media (max-height: 568px) {
+        .dialog_code {
+            margin-left: -130px;
+            width: 260px;
+            height: 260px
+        }
+    }</style>
+    <style type="text/css">.modal__dialog {
+        position: fixed;
+        width: 85%;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        z-index: 103;
+        text-align: center;
+        overflow: hidden;
+        border-radius: 5px;
+        background-color: #fafafa
+    }
+
+    .modal__title {
+        font-weight: 400;
+        font-size: inherit
+    }
+
+    .modal__body {
+        font-size: 16px;
+        position: relative;
+        padding: 20px;
+        color: #999
+    }
+
+    .modal__footer {
+        position: relative;
+        margin-top: 20px
+    }
+
+    .modal__button {
+        color: #ccc;
+        line-height: 42px
+    }
+
+    .modal__button:hover {
+        color: #ccc
+    }
+
+    .modal__button_active, .modal__button_active:hover {
+        color: #28b7a3
+    }</style>
+    <style type="text/css">.toast .mask {
+        background-color: hsla(0, 0%, 100%, .1)
+    }
+
+    .toast__content {
+        position: fixed;
+        z-index: 11;
+        max-width: 30%;
+        min-width: 100px;
+        min-height: 100px;
+        top: 30%;
+        left: 50%;
+        margin-left: -50px;
+        background-color: rgba(0, 0, 0, .5);
+        text-align: center;
+        border-radius: 5px;
+        color: #fff;
+        padding: 10px;
+        box-sizing: border-box
+    }
+
+    .toast__icon {
+        font-size: 50px;
+        color: #fff
+    }
+
+    .toast__txt {
+        font-size: 1.6rem
+    }</style>
+    <style type="text/css">@-webkit-keyframes loading-identifier {
+                               0% {
+                                   -webkit-transform: rotate(0deg) scale(1);
+                                   transform: rotate(0deg) scale(1)
+                               }
+                               25% {
+                                   -webkit-transform: rotate(180deg) scale(1);
+                                   transform: rotate(180deg) scale(1)
+                               }
+                               50% {
+                                   -webkit-transform: rotate(1turn) scale(1);
+                                   transform: rotate(1turn) scale(1)
+                               }
+                               75% {
+                                   -webkit-transform: rotate(540deg) scale(1);
+                                   transform: rotate(540deg) scale(1)
+                               }
+                               to {
+                                   -webkit-transform: rotate(2turn) scale(1);
+                                   transform: rotate(2turn) scale(1)
+                               }
+                           }
+
+    @keyframes loading-identifier {
+        0% {
+            -webkit-transform: rotate(0deg) scale(1);
+            transform: rotate(0deg) scale(1)
+        }
+        25% {
+            -webkit-transform: rotate(180deg) scale(1);
+            transform: rotate(180deg) scale(1)
+        }
+        50% {
+            -webkit-transform: rotate(1turn) scale(1);
+            transform: rotate(1turn) scale(1)
+        }
+        75% {
+            -webkit-transform: rotate(540deg) scale(1);
+            transform: rotate(540deg) scale(1)
+        }
+        to {
+            -webkit-transform: rotate(2turn) scale(1);
+            transform: rotate(2turn) scale(1)
+        }
+    }
+
+    .d-loading-container {
+        height: 100vh;
+        width: 100%;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center
+    }
+
+    .d-loading {
+        width: 30px;
+        height: 30px;
+        position: relative;
+        -webkit-animation: loading-identifier 2.5s infinite linear;
+        animation: loading-identifier 2.5s infinite linear
+    }
+
+    .d-loading .ball, .d-loading .line {
+        background-color: #28b7a3
+    }
+
+    .d-loading .ball-0 {
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -5px;
+        margin-top: -5px
+    }
+
+    .d-loading .ball-1 {
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        position: absolute;
+        right: 0;
+        top: 0
+    }
+
+    .d-loading .ball-2 {
+        width: 7px;
+        height: 7px;
+        border-radius: 3.5px;
+        position: absolute;
+        top: 3px;
+        left: 1px
+    }
+
+    .d-loading .ball-3 {
+        width: 7.5px;
+        height: 7.5px;
+        border-radius: 3.5px;
+        position: absolute;
+        right: 3px;
+        bottom: 1px
+    }
+
+    .d-loading .ball-4 {
+        width: 6px;
+        height: 6px;
+        border-radius: 3px;
+        position: absolute;
+        left: 3px;
+        bottom: 4px
+    }
+
+    .d-loading .line {
+        height: 1px;
+        width: 26px;
+        position: absolute;
+        top: 50%
+    }
+
+    .d-loading .line-0 {
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg)
+    }
+
+    .d-loading .line-1 {
+        -webkit-transform: rotate(135deg);
+        transform: rotate(135deg)
+    }</style>
+    <style type="text/css">.bar__tab {
+        position: fixed;
+        bottom: 0;
+        z-index: 9;
+        overflow: hidden;
+        background-color: #fdfdfd;
+        box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+        height: 50px;
+        height: calc(50px + constant(safe-area-inset-bottom));
+        width: 100%;
+        max-width: 768px
+    }
+
+    .bar__tab_hidden {
+        display: none
+    }
+
+    .bar__tab .bar__tabs {
+        -ms-flex-align: center;
+        -ms-flex-pack: center
+    }
+
+    .bar__tab .bar__tabs, .bar__tab__item {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center
+    }
+
+    .bar__tab__item {
+        -webkit-box-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        color: #4a4a4a;
+        text-align: center;
+        height: 50px;
+        -ms-flex-align: center;
+        -ms-flex-pack: center
+    }
+
+    .bar__tab__item .icon-font {
+        font-size: 2.2rem;
+        vertical-align: middle;
+        color: #999;
+        margin-right: 5px
+    }
+
+    .bar__tab__item:active {
+        background-color: #d1d1d1
+    }
+
+    .bar__tab .activated, .bar__tab .activated .icon-font {
+        color: #41b2a6
+    }
+
+    .bar__tab .bar__tab__item {
+        position: relative
+    }
+
+    .bar__tab .bar__tab__item:after {
+        display: block;
+        background-color: #b9b9b9;
+        position: absolute;
+        -webkit-transform-origin: 0 100%;
+        transform-origin: 0 100%;
+        content: "";
+        width: 1px;
+        height: 100%;
+        -webkit-transform: scaleX(.5);
+        transform: scaleX(.5);
+        right: 0;
+        top: 0
+    }
+
+    .bar__tab .bar__tab__item:last-child:after {
+        display: none
+    }
+
+    .bar__tab .bar__tab__item .circle-tip {
+        position: relative;
+        right: -1px;
+        top: -10px
+    }
+
+    .fix-iphone-x {
+        height: 34px;
+        width: 100%;
+        background-color: #f4f4f4
+    }</style>
+    <style type="text/css">.alert {
+        z-index: 9;
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%
+    }
+
+    .alert__txt {
+        padding: 10px 4%;
+        text-align: center;
+        color: #fff;
+        font-size: 1.3rem;
+        white-space: nowrap
+    }
+
+    .alert__txt a {
+        color: #fff
+    }
+
+    .alert__close {
+        position: absolute;
+        right: 14px;
+        top: 8px;
+        font-style: normal;
+        color: #fff;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #fff;
+        border-radius: 10px;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        font-weight: 100
+    }
+
+    .alert_warning {
+        background-color: rgba(217, 82, 55, .55)
+    }
+
+    .alert_tip {
+        background-color: #ffc233
+    }</style>
+    <style type="text/css">.header {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding-top: 10px;
+        background: #28b7a3
+    }
+
+    .header__brand {
+        -ms-flex-preferred-size: 60px;
+        flex-basis: 60px;
+        text-align: center;
+        height: 32px
+    }
+
+    .header__alert_visible .search-input_index .search-input__mask {
+        top: 90px
+    }</style>
+    <style type="text/css">.search-input {
+        position: relative;
+        padding: 12px 4%;
+        line-height: 34px;
+        background: #fff
+    }
+
+    .search-input:before {
+        top: -1px
+    }
+
+    .search-input:after, .search-input:before {
+        content: "";
+        width: 100%;
+        height: 1px;
+        -webkit-transform: scaleY(.5);
+        transform: scaleY(.5);
+        left: 0;
+        display: block;
+        background-color: #c7c7c7;
+        position: absolute;
+        -webkit-transform-origin: 0 100%;
+        transform-origin: 0 100%
+    }
+
+    .search-input:after {
+        bottom: 0
+    }
+
+    .search-input_index {
+        padding: 0;
+        width: 96%;
+        line-height: 32px;
+        border-radius: 8px;
+        background: #14ac98;
+        margin: 0 2%
+    }
+
+    .search-input_index:after, .search-input_index:before {
+        display: none
+    }
+
+    .search-input_index .search-input__form {
+        border-radius: inherit;
+        background: #0f8374
+    }
+
+    .search-input_index .search-input__form .icon-ic_searchb {
+        color: #71d5c8
+    }
+
+    .search-input_index .search-input__cancel {
+        top: 0;
+        right: 0;
+        color: #fff
+    }
+
+    .search-input_index .search-input__mask {
+        top: 52px
+    }
+
+    .search-input_index .search-input__input {
+        color: #fff
+    }
+
+    .search-input_index .search-input__input::-webkit-input-placeholder {
+        color: #71d5c8
+    }
+
+    .search-input__form {
+        position: relative;
+        height: inherit;
+        width: 100%;
+        background-color: #ebebeb;
+        border-radius: 18px;
+        transition: width .3s
+    }
+
+    .search-input__form_focus {
+        width: calc(100% - 2.7em)
+    }
+
+    .search-input .icon-ic_searb_clear, .search-input .icon-ic_searchb {
+        position: absolute;
+        top: calc(50% - .5em);
+        color: #999;
+        font-size: 1.6rem
+    }
+
+    .search-input .icon-ic_searchb {
+        left: .7em
+    }
+
+    .search-input .icon-ic_searb_clear {
+        right: .7em;
+        color: #aaa
+    }
+
+    .search-input__input {
+        margin: 0 auto;
+        display: block;
+        width: calc(100% - 5em);
+        line-height: inherit;
+        font-size: inherit;
+        border-radius: inherit;
+        background: inherit
+    }
+
+    .search-input__cancel {
+        position: absolute;
+        top: 12px;
+        right: 10px;
+        color: #428bca
+    }
+
+    .search-input__mask {
+        position: fixed;
+        top: 44px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: hsla(0, 0%, 100%, .8);
+        z-index: 10
+    }</style>
+    <style type="text/css">.image_combine {
+        position: relative
+    }
+
+    .image_combine:after {
+        display: block;
+        background-color: #d9d9d9;
+        position: absolute;
+        -webkit-transform-origin: 0 100%;
+        transform-origin: 0 100%;
+        content: "";
+        width: 100%;
+        height: 1px;
+        -webkit-transform: scaleY(.5);
+        transform: scaleY(.5);
+        left: 0;
+        bottom: 0
+    }
+
+    .image_combine_inline {
+        position: relative;
+        margin-top: 10px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        background-color: #fff;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 15px
+    }
+
+    .image_combine_inline:before {
+        content: "";
+        width: 100%;
+        height: 1px;
+        -webkit-transform: scaleY(.5);
+        transform: scaleY(.5);
+        left: 0;
+        top: -1px;
+        display: block;
+        background-color: #d9d9d9;
+        position: absolute;
+        -webkit-transform-origin: 0 100%;
+        transform-origin: 0 100%
+    }
+
+    .img-inline {
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        width: 48%
+    }</style>
+    <style type="text/css">.page-infinite-loading {
+        text-align: center;
+        padding-top: 12px
+    }
+
+    .page-infinite-loading .mint-spinner-fading-circle {
+        display: inline-block
+    }
+
+    .divide {
+        height: 10px;
+        background-color: #fafafa;
+        border: 1px solid #ededed
+    }</style>
+    <style type="text/css">.item_content {
+        padding: 4% 5%;
+        background-color: #fff
+    }
+
+    .overline {
+        display: -webkit-box;
+        word-break: break-all;
+        overflow: hidden;
+        line-height: 22px;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        max-height: 66px
+    }
+
+    .item_mask {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%
+    }
+
+    .item_top {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex
+    }
+
+    .doctor_name {
+        height: 18px;
+        font-weight: 500;
+        color: #219c8b;
+        margin: 0 10px;
+        max-width: 100px
+    }
+
+    .doctor_hosp, .doctor_name {
+        font-size: 14px;
+        line-height: 1.29;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-break: break-all
+    }
+
+    .doctor_hosp {
+        width: 200px;
+        height: 16px;
+        color: #999
+    }
+
+    .item_title {
+        padding: 5px 0;
+        font-size: 1.6rem
+    }
+
+    .item_bottom {
+        height: 14px;
+        font-size: 12px;
+        line-height: 1.17;
+        color: #999;
+        padding-top: 10px
+    }
+
+    .item_number {
+        padding-right: 5px
+    }
+
+    .content_img_wp {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        width: 100%;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        height: 112px;
+        overflow: hidden;
+        margin-bottom: 5px
+    }
+
+    .content_img {
+        width: 100%;
+        height: auto
+    }</style>
+    <style type="text/css">.page-infinite-text {
+        font-size: 1.2rem;
+        color: #999;
+        margin: 40px 0 30px;
+        text-align: center
+    }</style>
+    <script type="text/javascript" charset="utf-8" async="" src="__personal__/11.me.3ca1916b2da17ea28457.js"></script>
+    <style type="text/css">.issue[data-v-cd304830] {
+        padding-bottom: 0
+    }</style>
+    <style type="text/css">.empty {
+        background-color: #fff;
+        text-align: center
+    }
+
+    .empty .empty_out {
+        padding: 20px 4%
+    }
+
+    .empty .empty_out .empty__txt {
+        text-align: left;
+        color: #767676
+    }
+
+    .empty .empty_out .empty__link {
+        line-height: 24px;
+        margin-top: 8px;
+        display: block
+    }</style>
+</head>
+<body>
+<div class="wrap"><!---->
+
+    <div class="main" style="padding-bottom: 80px;">
+        <div>
+            <div>
+                <!--<div class="group">-->
+                <!--<div class="group__hd"><span>我的钱包</span></div>-->
+                <!--<div class="group__cells">-->
+                <!--<div class="cell cell_access">-->
+                <!--<div class="cell__hd"><span>我的优惠</span></div>-->
+                <!--<div class="cell__bd"></div>-->
+                <!--<div class="cell__ft"></div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div data-v-cd304830="" class="group">
+                    <div class="group__hd"><span data-v-cd304830="">我的提问</span></div>
+                    <div class="group__cells group__cells_pagination">
+                        <div data-v-cd304830="" class="empty">
+                            <div class="empty_out">
+                                <div class="empty__txt"><span data-v-cd304830="">你还没有向专家提过问题。现在就去提问，让专家解答你的疑惑。</span>
+                                </div>
+                                <a href="https://ask.dxy.com/ama/index#/find/" class="empty__link c-primary"><span
+                                        data-v-cd304830="">马上向专家提问 &gt;&gt;</span></a></div>
+
+
+                        </div> <!----></div>
+                </div>
+                <div class="group">
+                    <div class="group__hd"><span>我的信息</span></div>
+                    <div class="group__cells">
+                        <div class="cells">
+                            <div class="cell cell_access">
+                                <div class="cell__hd"><span>我看过的问题</span></div>
+                                <div class="cell__bd"></div>
+                                <div class="cell__ft"></div>
+                            </div>
+                            <!--<div class="cell cell_access">-->
+                                <!--<div class="cell__hd"><span>我关注的医生</span></div>-->
+                                <!--<div class="cell__bd"></div>-->
+                                <!--<div class="cell__ft"></div>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div> <!---->
+                <div class="copyright"><p>使用「{$Think.config.web_site_title}」即表示你完全接受我们的
+                    <a class="c-primary">用户协议
+                    </a></p>
+                    <p>
+
+                        {$Think.config.web_site_keyword}
+
+
+                    </p></div>
+            </div>
+        </div>
+    </div>
+    {include file="/foot"}
+
+</div>
+<script type="text/javascript" src="__personal__/" async=""></script>
+<script type="text/javascript" async="" src="__personal__/da.js"></script>
+<script src="https://pingjs.qq.com/h5/?v2.0.4" name="MTAH5" sid="500482047" cid="500490106"
+        async="true"></script>
+<script>// MTA Analytics
+var _mtac = {'performanceMonitor': 1, 'senseQuery': 1};
+(function () {
+    var mta = document.createElement('script');
+    mta.src = '//pingjs.qq.com/h5/?v2.0.4';
+    mta.setAttribute('name', 'MTAH5');
+    mta.setAttribute('sid', '500482047');
+    mta.setAttribute('cid', '500490106');
+    mta.setAttribute('async', true);
+    const s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+// DXY Analytics
+var da_page_id, da_session_id;
+
+function initDaPageId(pageid, sessionid) {
+    da_page_id = pageid;
+    da_session_id = sessionid;
+}
+
+var _daq = _daq || [];
+_daq.push(['_setAccount', 'da-10003-3']);
+(function () {
+    var da = document.createElement('script');
+    da.type = 'text/javascript';
+    da.async = true;
+    da.src = '//da.dxy.cn/da.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(da, s);
+})();
+// Google Analytics
+window.ga = window.ga || function () {
+    (ga.q = ga.q || []).push(arguments)
+};
+ga.l = new Date;
+ga('create', 'UA-78271748-1', 'auto');
+var dimensionValue = 'patient';
+ga('set', 'dimension1', dimensionValue);
+document.dispatchEvent(new Event('gaInit'));</script>
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script async="" src="__personal__/font_189285_6531qfwh0ssjor.js"></script>
+<script async="" src="https://pingjs.qq.com/h5/hotclick.js?v2.0" name="mtah5hotclick" sid="500482047"
+        hid="5a7168eab4380"></script>
+<script async="" src="https://pingjs.qq.com/h5/hotclick.js?v2.0" name="mtah5hotclick" sid="500482047"
+        hid="5a716ad1c9562"></script>
+<script src="__personal__/main.746d255e2c036d478f50.js"></script>
+</body>
+</html>

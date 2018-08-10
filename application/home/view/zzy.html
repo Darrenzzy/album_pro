@@ -1,0 +1,39 @@
+<!--{volist name="datalist" id="vo"}-->
+<!--<div>-->
+<!--<div class="divide"></div>-->
+<!--<div class="item_content">-->
+<!--<div class="item_top show_zj">-->
+<!--<a href="{:url('index/professor')}?id={$vo.manid}">-->
+
+<!--{if $vo.head eq ''}-->
+<!--<img src="__list__/moren.png"-->
+<!--1 class="item_mask">-->
+<!--{else/}-->
+
+<!--<img src="{$vo.head}"-->
+<!--2 class="item_mask">-->
+<!--{/if}-->
+<!--</a>-->
+<!--<span class="doctor_name">-->
+
+<!--{$vo.username}-->
+<!--</span> <span-->
+<!--class="doctor_hosp">-->
+
+<!--{$vo.dt|substr=0,10}-->
+<!--</span></div>-->
+<!--<a style="color: #090909;" href="{:url('index/wtshow')}?qid={$vo.qid}&id={$vo.manid}">-->
+<!--<h3 class="item_title">{$vo.note}</h3>-->
+<!--</a>-->
+<!--<p class="overline">-->
+<!--<span-->
+<!--class="overline">-->
+<!--{$vo.lastreply}-->
+
+<!--</span>-->
+<!--</p>-->
+<!--<p class="item_bottom"><span class="item_number">{$vo.num}</span>回复-->
+<!--<span>·</span> <span class="item_number">19</span>收藏-->
+<!--</p></div>-->
+<!--</div>-->
+<!--{/volist}-->

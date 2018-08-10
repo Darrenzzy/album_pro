@@ -1,0 +1,367 @@
+{include file="public/header" /}
+<style type="text/css">
+    .laytable-cell-1-photo,
+    .laytable-cell-2-photo,
+    .laytable-cell-3-photo,
+    .laytable-cell-4-photo,
+    .laytable-cell-5-photo,
+    .laytable-cell-6-photo,
+    .laytable-cell-7-photo,
+    .laytable-cell-8-photo,
+    .laytable-cell-9-photo,
+    .laytable-cell-10-photo { /*图片样式*/
+        height: 100%;
+        max-width: 100%;
+    }
+
+    body {
+        overflow-y: scroll;
+    }
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>{$leibie}列表</h5>
+        </div>
+
+
+        <div class="ibox-content">
+            <!--搜索框开始-->
+            <form class="layui-form" action="">
+                <div class="layui-form-item" style="display: inline-block;">
+                    <label class="layui-form-label" style="width: 96px;
+">审核状态:</label>
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                            <select name="interest" id="pid" class="layui-selecwwwt" lay-filter="pid">
+                                <option value="">全部</option>
+                                <option value="1">已审核</option>
+                                <option value="2">未审核</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="demoTable" style="display: inline-block;">
+                    用户名：
+                    <div class="layui-inline">
+                        <input class="layui-input" name="username" id="username" autocomplete="true">
+                    </div>
+
+                    <button class="layui-btn" lay-filter="demo1" data-type="reload">搜索</button>
+                </div>
+            </form>
+
+
+            <!--搜索框结束-->
+
+
+            <!--<div class="hr-line-dashed"></div>-->
+            <div class="example-wrap">
+                <div class="example">
+                    <div class="layui-btn-group toolTable">
+                        <button class="layui-btn layui-btn-danger layui-btn-sm" data-type="deleteSelecteds"><i
+                                class="layui-icon">&#xe640;</i>删除
+                        </button>
+                    </div>
+                    <table id="member" lay-filter="member"></table>
+                    <script type="text/html" id="barDemo">
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    </script>
+                </div>
+            </div>
+            <!-- End Example Pagination -->
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+
+
+<!-- 加载动画 -->
+
+
+{include file="public/footer" /}
+
+
+<!--状态的模板-->
+<script type="text/html" id="statusTpl">
+    {{# if(d.privilege==1){ }}
+
+    {{# if(d.status==1){ }}
+    <a href="javascript:;" onclick="member_status({{d.manid}});">
+        <div id="zt{{d.manid}}"><span class="label label-info">开启</span></div>
+    </a>
+    {{# }else{ }}
+    <a href="javascript:;" onclick="member_status({{d.manid}});">
+        <div id="zt{{d.manid}}"><span class="label label-danger">禁用</span></div>
+    </a>
+    {{# } }}
+
+    {{# }else{ }}
+    <div id="zt{{d.manid}}"><span class="label label-info">默认开启</span></div>
+
+
+    {{# } }}
+
+</script>
+<!--状态的模板-->
+
+<script type="text/javascript">
+    layui.use(['form', 'element', 'table', 'jquery'], function () {
+        var table = layui.table
+            , form = layui.form
+            , element = layui.element;
+
+        var $ = layui.$ //重点处
+            ,layer = layui.layer;
+
+        form.on('select(pid)', function(data){
+                //执行重载
+                table.reload('memberReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where:{pid:$("#pid").val()
+
+                    }
+
+                });
+            // privilege
+
+        });
+
+        table.render({
+            elem: '#member'
+            , url: '/admin/member/getMemberList'
+            ,where:{
+                pid: $("#pid").val()
+                ,privilege:{$p}
+            }
+            , cols: [[
+                {type: 'checkbox'}
+                , {field: 'manid', title: 'ID', width: 50, align: 'center', sort: true, unresize: false}
+                , {field: 'username', title: '用户名',  align: 'center', sort: true}
+                , {field: 'postname', title: '职位',  event: 'postname', align: 'center', sort: true}
+                // , {
+                //     field: 'head',
+                //     title: '头像',
+                //     templet: '<div> <img class="img-circle" src="/uploads/face/{{d.photo}}"></div>',
+                //     sort: false
+                // }
+                , {field: 'note', title: '简介', align: 'center',  event: 'note', width: 200, sort: true}
+                , {
+                    field: 'email', title: '邮箱', event: 'setemail', style: 'cursor: pointer;', align: 'center', sort:
+                        true
+                }
+                , {field: 'status', id:'status', title: '状态', width: 90, templet: '#statusTpl', align: 'center', sort:
+                        true}
+                , {title: '操作', width: 80, align: 'center', toolbar: '#barDemo'}
+            ]]
+            , id: 'memberReload'//会员列表重载
+            , limit: 10
+            , page: true
+
+        });
+
+
+        <!--会员列表重载-->
+        var $ = layui.$, active = {
+            reload: function () {
+                var username = $('#username');//用户名
+                var pid = $("#pid");
+
+
+                //当前页面条件查询时  执行重载
+                table.reload('memberReload', {
+
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    // ,url: '/api/table/search'
+                    , where: {
+                        username: username.val(),
+                        pid: pid.val(),
+                        phone: phone.val()
+                    }
+                });
+            },
+
+            deleteSelecteds: function () { //获取选中数据
+                var checkStatus = table.checkStatus('memberReload')
+                    , data = checkStatus.data;
+                var ids = "";
+                for (var i = 0; i < data.length; i++) {
+                    var val = data[i].manid;//注意修改字段  /*zzy*/
+                    if (ids.length > 0) {
+                        ids += ',';
+                    }
+                    ids += val;
+                }
+
+                if (data.length > 0) {
+                    lunhui.deletes(ids, '{:url("delSelecteds")}');
+                } else {
+                    layer.msg('请选中需要删除的数据', {icon: 0, time: 1500}, function (index) {
+                        layer.close(index);
+                    });
+                }
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        <!--会员列表重载-->
+
+        <!--增删改查的操作-->
+        $('.toolTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        <!--增删改查的操作-->
+
+        //监听工具条
+        table.on('tool(member)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    //删除tabel这一行显示
+                    obj.del();
+                    del_member(obj.id);
+                    layer.close(index);
+                });
+            }
+
+            if (obj.event === 'setemail') {
+                layer.prompt({
+                    formType: 2
+                    , title: '修改名称为 [' + data.username + '] 的用户email'
+                    , value: data.email
+                }, function (value, index) {
+                    layer.close(index);
+
+                    //这里一般是发送修改的Ajax请求
+                    $.ajax({
+                        type: 'POST',
+                        url: "./edits", // ajax请求路径
+                        data: {
+                            id: data.manid,
+                            email: value
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            //调用弹窗显示信息
+                            layer.msg(data['msg']);
+
+                            if (data.code == 1) {
+
+                                //同步更新表格和缓存对应的值
+                                obj.update({
+                                    email: value
+                                });
+
+                            }
+
+                        }
+
+                    });
+
+                });
+            }
+
+
+            if (obj.event === 'note') {
+                layer.prompt({
+                    formType: 2
+                    , title: '修改 [' + data.username + '] 的简介'
+                    , value: data.note
+                }, function (value, index) {
+                    layer.close(index);
+
+                    //这里一般是发送修改的Ajax请求
+                    $.ajax({
+                        type: 'POST',
+                        url: "./edits", // ajax请求路径
+                        data: {
+                            id: data.manid,
+                            note: value
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            //调用弹窗显示信息
+                            layer.msg(data['msg']);
+
+                            if (data.code == 1) {
+
+                                //同步更新表格和缓存对应的值
+                                obj.update({
+                                    note: value
+                                });
+
+                            }
+
+                        }
+
+                    });
+
+                });
+            }
+
+            if (obj.event === 'postname') {
+                layer.prompt({
+                    formType: 2
+                    , title: '修改 [' + data.username + '] 的荣誉'
+                    , value: data.postname
+                }, function (value, index) {
+                    layer.close(index);
+
+                    //这里一般是发送修改的Ajax请求
+                    $.ajax({
+                        type: 'POST',
+                        url: "./edits", // ajax请求路径
+                        data: {
+                            id: data.manid,
+                            postname: value
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            //调用弹窗显示信息
+                            layer.msg(data['msg']);
+
+                            if (data.code == 1) {
+
+                                //同步更新表格和缓存对应的值
+                                obj.update({
+                                    postname: value
+                                });
+
+                            }
+
+                        }
+
+                    });
+
+                });
+            }
+
+        });
+
+    });
+
+
+    //删除会员
+    function del_member(id) {
+        lunhui.delete(id, '{:url("del")}');
+    }
+
+    //用户会员
+    function member_status(id) {
+        lunhui.status(id, '{:url("member_status")}');
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!--上传图片用的css-->
+    <link href="__geren__/load.css" type="text/css" rel="stylesheet"/>
+    <!--禁用iPhone手机浏览器上给电话号码自动加上的link样式-->
+    <meta name="format-detection" content="telephone=no">
+    <script type="text/javascript" src="__geren__/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="__geren__/jquery.glide.js"></script>
+    <link href="__geren__/aqtPublic.css" type="text/css" rel="stylesheet"/>
+    <link href="__geren__/gerenzhongxin.css" type="text/css" rel="stylesheet"/>
+    <link href="__geren__/shiliang/iconfont.css" type="text/css" rel="stylesheet"/>
+    <link href="__geren__/font/iconfont.css" type="text/css" rel="stylesheet"/>
+    <title>微信个人中心</title>
+
+</head>
+<body style="background: #ebebeb">
+<div class="clear"></div>
+<div class="aqt-grxx">
+      {include file="userhead"/}
+    <script>
+        $("#file0").change(function () {
+            var objUrl = getObjectURL(this.files[0]);
+            obUrl = objUrl;
+            console.log("objUrl = " + objUrl);
+            if (objUrl) {
+                $("#img0").attr("src", objUrl).show();
+            }
+            else {
+                $("#img0").hide();
+            }
+        });
+        $("#file1").change(function () {
+            var objUrl = getObjectURL(this.files[0]);
+            obUrl = objUrl;
+            console.log("objUrl = " + objUrl);
+            if (objUrl) {
+                $("#img0").attr("src", objUrl).show();
+            }
+            else {
+                $("#img0").hide();
+            }
+        });
+
+        function setImagePreview($this) {
+            var path = window.URL.createObjectURL($this.files[0]);
+            $($this).parent().parent('li').find('.img').attr('src', path)
+        }
+
+        function getObjectURL(file) {
+            var url = null;
+            if (window.createObjectURL != undefined) { // basic
+                url = window.createObjectURL(file);
+            } else if (window.URL != undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file);
+            } else if (window.webkitURL != undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file);
+            }
+            return url;
+        }
+
+        var subUrl = "";
+        $(".file-0").bind('change', function () {
+            subUrl = $(this).val();
+            $(".yulan0").show();
+            $(".file-0").val(subUrl);
+        });
+
+        //        $("#btn-0").click(function () {
+        //            $("#touxiang a").css('display','none');
+        //            $("#img-0").show();
+        //            $("#img-0").attr("src", obUrl);
+        //            $("#btlogin").submit();
+        //            $("form").submit();
+        //            $(".yulan0").hide();
+        //        });
+
+        //点击取消
+        $(".btn-2").click(function () {
+            $(".yulan0").hide();
+        });
+
+    </script>
+
+
+</div>
+<ul class="grxxul">
+    <a href="{:Url('index/gerenxiugai')}">
+        <li>个人信息修改<span class="iconfont">&#xe68e;</span></li>
+    </a>
+
+    {if $Think.session.home.status eq 1}
+    <a href="{:Url('index/myquestion')}">
+        <li>问题列表<span class="iconfont">&#xe68e;</span></li>
+    </a>
+
+    {else/}
+    <!--用户-->
+
+    <a href="{:Url('index/myquestion')}">
+        <li>我的问题<span class="iconfont">&#xe68e;</span></li>
+    </a>
+    <a href="{:Url('index/shenqing')}">
+        <li>专家申请<span class="iconfont">&#xe68e;</span></li>
+    </a>
+    <a href="{:Url('index/album')}">
+        <li>我的相册<span class="iconfont">&#xe68e;</span></li>
+    </a>
+
+    {/if}
+
+
+    <a href="{:Url('login/loginOut')}">
+        <li>注销登录<span class="iconfont">&#xe68e;</span></li>
+    </a>
+    <!--<li style="text-align: center;"><a href="tel: " style="    font-size: 0.9rem; color:#333333;">热线电话： </a>-->
+<!--</li>-->
+</ul>
+<script type="text/javascript" async="" src="__PUB__/is_img.js"></script>
+
+<div style="width: 100%; height: 3.8rem;"></div>
+
+
+{include file="/footer" /}
+<div style="width: 100%; height: 3.8rem;"></div>
+
+
+<div class="clear"></div>
+<div class="aqt-foot1">
+    <!--<a href="{:url('/')}">-->
+    <!--<a href="javascrip:;" >-->
+        <button id="bus" onclick="javascript:history.back(-1);" class="aqt-gouwuche">返回</button>
+    <!--</a>-->
+</div>
+</body>
+</html>

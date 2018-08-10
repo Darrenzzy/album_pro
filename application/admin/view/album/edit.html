@@ -1,0 +1,171 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>修改</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" name="add" id="add" method="post" action="{:url('edit')}">
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">新闻栏目：</label>
+                            <div class="input-group col-sm-4">
+                                <select class="form-control m-b chosen-select" name="cid" id="cid">
+                                    <option value="">==请选择==</option>
+
+                                    {foreach name="datalist" item="vo"}
+
+                                    <option value="{$vo.id}" {if $vo.id eq $info.cid } selected {/if} >
+
+                                    {$vo.classname}
+
+                                    </option>
+                                    {/foreach}
+
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">图片：</label>
+                            <div class="input-group col-sm-4">
+                                <input type="hidden" id="service_pic" name="pic" value="">
+                                <div id="fileList" class="uploader-list" style="float:right"></div>
+                                <button type="button" class="layui-btn" id="pic" style="float:left">
+                                    上传图片
+                                </button>
+                                <div style="width:50%;color: #999;margin-left:115px;margin-top:-15px;">
+                                    建议图片尺寸为20*25
+                                </div>
+                                <img id="img_data"  style="float:left;    width: 301px;margin-left: 150px;margin-top: 0px;" src="/uploads/images/{$info.picname}"/>
+                            </div>
+                        </div>
+
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> 提交</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="javascript:history.go(-1);"><i class="fa fa-close"></i>
+                                    返回</a>
+                            </div>
+                        </div>
+
+                        <input  type="hidden" class="form-control" name="id" value="{$info.id}">
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+
+    layui.use(['upload', 'laydate'], function () {
+        var upload = layui.upload
+            , laydate = layui.laydate;
+
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#pic' //绑定元素
+            // , url: "{:url('Upload/uploadImage')}" //上传接口
+            , url: "/admin/Upload/uploadImage" //上传接口
+            , data: {'position': '/images'}
+            , before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                layer.load(); //上传loading
+            }
+            , done: function (res) {
+                $("#service_pic").val(res);
+                $("#img_data").attr('src', '/uploads/images/' + res).show();
+                layer.closeAll('loading'); //关闭loading
+            }
+            , error: function (index, upload) {
+                layer.closeAll('loading'); //关闭loading
+            }
+        });
+
+
+        laydate.render({
+            elem: '#datetime' //指定元素
+        });
+    });
+
+    $(function () {
+        $('#add').ajaxForm({
+            beforeSubmit: checkForm,
+            success: complete,
+            dataType: 'json'
+        });
+
+        function checkForm() {
+            if ('' == $.trim($('#cid').val())) {
+                layer.msg('请选择图片类型', {icon: 2, time: 1500, shade: 0.1}, function (index) {
+                    layer.close(index);
+                });
+                return false;
+            }
+            //
+            // if ('' == $.trim($('#service_pic').val())) {
+            //     layer.msg('请上传图片', {icon: 2, time: 1500, shade: 0.1}, function (index) {
+            //         layer.close(index);
+            //     });
+            //     return false;
+            // }
+            //
+            // if ('' == $.trim($('#service_pic').val())) {
+            //     layer.msg('请上传服务设施图片', {icon: 2, time: 1500, shade: 0.1}, function (index) {
+            //         layer.close(index);
+            //     });
+            //     return false;
+            // }
+        }
+
+
+        function complete(data) {
+            if (data.code == 1) {
+                layer.msg(data.msg, {icon: 6, time: 1500, shade: 0.1}, function (index) {
+                    window.history.go(-1);
+                    // window.location.href="{:url('service/index')}";
+                });
+            } else {
+                layer.msg(data.msg, {icon: 5, time: 1500, shade: 0.1});
+                return false;
+            }
+        }
+
+    });
+
+
+    //IOS开关样式配置
+    var elem = document.querySelector('.js-switch');
+    var switchery = new Switchery(elem, {
+        color: '#1AB394'
+    });
+    var config = {
+        '.chosen-select': {},
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>房型列表</h5>
+        </div>
+        <div class="ibox-content">
+            <!--搜索框开始-->
+            <div class="demoTable">
+                房型：
+                <div class="layui-inline">
+                    <input class="layui-input" name="title" id="title" autocomplete="true">
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+            </div>
+            <!--搜索框结束-->
+            <div class="hr-line-dashed"></div>
+            <div class="example-wrap">
+                <div class="example">
+                    <button class="layui-btn layui-btn-sm" data-type="add"><i
+                            class="layui-icon">&#xe654;</i>新增
+                    </button>
+                    <button class="layui-btn layui-btn-danger layui-btn-sm" data-type="deleteSelecteds"><i
+                            class="layui-icon">&#xe640;</i>删除
+                    </button>
+
+                    <table id="list" lay-filter="member"></table>
+                    <script type="text/html" id="barDemo">
+                        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    </script>
+                </div>
+            </div>
+            <!-- End Example Pagination -->
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+
+
+<!-- 加载动画 -->
+
+
+{include file="public/footer" /}
+
+<!--状态的模板-->
+<script type="text/html" id="statusTpl">
+    {{# if(d.status==1){ }}
+    <a href="javascript:;" onclick="layout_status({{d.id}});">
+        <div id="zt{{d.id}}"><span class="label label-info">正常</span></div>
+    </a>
+    {{# }else{ }}
+    <a href="javascript:;" onclick="layout_status({{d.id}});">
+        <div id="zt{{d.id}}"><span class="label label-danger">停用</span></div>
+    </a>
+    {{# } }}
+</script>
+<!--状态的模板-->
+
+<script type="text/javascript">
+    layui.use('table', function () {
+        var table = layui.table;
+
+        table.render({
+            elem: '#list'
+            , url: '/admin/house_layout/getHouseLayoutList'
+            , cols: [[
+                {type: 'checkbox'}
+                , {field: 'id', title: 'ID', align: 'center', sort: true, unresize: false}
+                , {field: 'title', title: '房型', align: 'center', sort: true}
+                , {field: 'status', title: '状态', templet: '#statusTpl', align: 'center', sort: true}
+                , {title: '操作', width: 120, align: 'center', toolbar: '#barDemo'}
+            ]]
+            , id: 'listReload',//会员列表重载
+            page: true
+        });
+
+        <!--房型列表重载-->
+        var $ = layui.$, active = {
+            reload: function () {
+                var title = $('#title');//房型
+                //执行重载
+                table.reload('listReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        title: title.val(),
+                    }
+                });
+            },
+
+            /**新增页面**/
+            add:function () {
+               location.href="{:url('house_layout/add')}";
+            },
+
+            /**删除选中的数据**/
+            deleteSelecteds: function () { //获取选中数据
+                var checkStatus = table.checkStatus('listReload')
+                    , data = checkStatus.data;
+                var ids = "";
+                for (var i = 0; i < data.length; i++) {
+                    var val = data[i].id;//值
+                    if (ids.length > 0) {
+                        ids += ',';
+                    }
+                    ids += val;
+                }
+                if (data.length > 0) {
+                    lunhui.deletes(ids, '{:url("delSelecteds")}');
+                } else {
+                    layer.msg('请选中需要删除的数据', {icon: 0, time: 1500}, function (index) {
+                        layer.close(index);
+                    });
+                }
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        <!--会员列表重载-->
+
+        <!--增删改查的操作-->
+        $('.example .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        <!--增删改查的操作-->
+
+        //监听工具条
+        table.on('tool(member)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    del_layout(obj.data.id);
+                    layer.close(index);
+                });
+            }else if(obj.event === 'edit'){
+                location.href = './edit/id/'+obj.data.id+'.html';
+            }
+        });
+
+    });
+
+
+    //删除房型
+    function del_layout(id) {
+        lunhui.delete(id, '{:url("del")}');
+    }
+
+    //房型的状态
+    function layout_status(id) {
+        lunhui.status(id, '{:url("layout_status")}');
+    }
+
+</script>
+
+</body>
+</html>

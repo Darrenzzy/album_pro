@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <script src="__js1__/config.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+        window.alert = function(name){
+            var iframe = document.createElement("IFRAME");
+            iframe.style.display="none";
+            iframe.setAttribute("src", 'data:text/plain,');
+            document.documentElement.appendChild(iframe);
+            window.frames[0].window.alert(name);
+            iframe.parentNode.removeChild(iframe);
+        };
+    </script>
+    <title>活动详情</title>
+    <link rel="stylesheet" type="text/css" href="__css1__/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="__css1__/teacher_details.css"/>
+    <script src="__js1__/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__js1__/chongzhi.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__js1__/index.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function() {
+            var myS = $(window).width() / 10;
+            $('html').css('font-size',myS+'px');
+        });
+    </script>
+</head>
+<body>
+<!--header-->
+<div class="header">
+    <div class="header_bg">
+        <img id="changepic" src=""/>
+    </div>
+    <div class="back" onclick="javascript:history.go(-1)">
+        <img src="__IMG__/teacher/nav_btn_back_white@2x.png"/>
+    </div>
+</div>
+<!--老师头像-->
+<div class="teac_portrait">
+    <div class="name">
+        <input type="hidden" name="id" id="id" value="{$id}" >
+        <input type="hidden" name="lng" id="lng" value="{$lng}" >
+        <input type="hidden" name="lat" id="lat" value="{$lat}" >
+        <div class="name_row">
+            <h1 id="agency_name">威宁书法私塾</h1>
+            <img src="__IMG__/porsonal/icon_approve_default_16_16@2x.png" />
+
+        </div>
+        <div class="con_pj">
+            <ul id="star">
+
+            </ul>
+            <span id="clickRate"></span>
+            <p id="distance"></p>
+        </div>
+    </div>
+</div>
+<!--位置-->
+<div class="adress">
+    <div class="map">
+        <img src="__IMG__/teacher/icon_location_20_20@2x.png"/>
+    </div>
+    <p id="formatted_address">天上人间 威宁路358弄13号</p>
+    <div class="next">
+        <img src="__IMG__/teacher/btn_arrow_right_12_7@2x.png"/>
+    </div>
+</div>
+<!--认证-->
+<div class="approve">
+    <ul>
+        <li>
+            <img src="__IMG__/porsonal/icon_service@2x.png"/>
+            <p>机构注册</p>
+        </li>
+        <li>
+            <img src="__IMG__/porsonal/icon_service@2x.png"/>
+            <p>平台认证</p>
+        </li>
+        <li>
+            <img src="__IMG__/porsonal/icon_service@2x.png"/>
+            <p>资质认证</p>
+        </li>
+    </ul>
+</div>
+<!--宣传语-->
+<div class="adress propaganda">
+    <div class="propa">
+        <img src="__IMG__/porsonal/icon_news_grey@2x.png"/>
+    </div>
+    <p>课外补习班，明天就上课，一个月学成</p>
+    <div class="next">
+        <img src="__IMG__/teacher/btn_arrow_right_12_7@2x.png"/>
+    </div>
+</div>
+<!--私教课程标题-->
+<div id="lessons_show">
+
+    <div class="course">
+        <div class="course_icon">
+            <img src="__IMG__/teacher/icon_course_20_20@2x.png"/>
+        </div>
+        <h2>私教课程</h2>
+    </div>
+    <!--私教课程内容-->
+    <div id="lessons">
+    </div>
+    <div class="course_num">
+        <p id="all_lessons_count"></p>
+        <div class="next">
+            <img src="__IMG__/teacher/btn_arrow_right_12_7@2x.png" onclick="window.location.href='/wechat/lesson/all_lessons/id/{$id}'"/>
+        </div>
+    </div>
+</div>
+<!--视频展示标题-->
+<div id="video_lessons_show">
+
+    <div class="course picture video">
+        <div class="course_icon">
+            <img src="__IMG__/teacher/icon_course_20_20@2x.png"/>
+        </div>
+        <h2>视频教程</h2>
+        <div class="next">
+            <img src="__IMG__/teacher/btn_arrow_right_12_7@2x.png" onclick="javascript:window.location.href='/wechat/lesson/all_video_lessons/id/{$id}'"/>
+        </div>
+    </div>
+    <!--视频展示内容-->
+    <div class="video_content" id="video_lessons">
+
+    </div>
+</div>
+<!--名师风采标题-->
+<div id="teachers_show">
+
+    <div class="course picture">
+        <div class="course_icon">
+            <img src="__IMG__/porsonal/icon_teacher_20_20@2x.png"/>
+        </div>
+        <h2>名师风采</h2>
+        <div class="next">
+            <img src="__IMG__/teacher/btn_arrow_right_12_7@2x.png" onclick="javascript:window.location.href='/wechat/teacher/all_teacher/id/{$id}'"/>
+        </div>
+    </div>
+    <!--名师风采内容-->
+    <div class="pic_content">
+        <ul id="teachers">
+
+        </ul>
+    </div>
+</div>
+<!--直播展示标题-->
+<!--<div class="course picture live">-->
+<!--<div class="course_icon">-->
+<!--<img src="__IMG__/teacher/icon_broadcast_20_20@2x.png"/>-->
+<!--</div>-->
+<!--<h2>正在直播</h2>-->
+<!--<div class="next">-->
+<!--<img src="__IMG__/teacher/btn_arrow_right_12_7@2x.png"/>-->
+<!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash;视频展示内容&ndash;&gt;-->
+<!--<div class="lie_content">-->
+<!--<div class="live_img">-->
+<!--<img src="__IMG__/Agency/agency_pic.png"/>-->
+<!--<div class="live_icon">-->
+<!--<span></span>-->
+<!--<p>直播中</p>-->
+<!--</div>-->
+<!--<div class="live_map">-->
+<!--<img src="__IMG__/Agency/tabbar_icon_nearby_blank.png"/>-->
+<!--<p>广东 深圳</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="live_title">-->
+<!--<h1>独家|芭蕾舞现场直播教程</h1>-->
+<!--<span>￥158</span>-->
+<!--</div>-->
+<!--<p class="look">456人在看</p>-->
+<!--<div class="live_zan">-->
+<!--<p class="live_me">-->
+<!--<img src="__IMG__/Agency/home_img_vido_default_60_60.png"/>紫气东来-->
+<!--</p>-->
+<!--<p class="zan_1">-->
+<!--<img src="__IMG__/Agency/icon_discu_12_12@2x.png"/>-->
+<!--2109-->
+<!--</p>-->
+<!--<p class="zan_2">-->
+<!--<img src="__IMG__/Agency/icon_likeicon_12_12@2x.png"/>-->
+<!--17.8K-->
+<!--</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="course_num">-->
+<!--<p>全部1个直播</p>-->
+<!--<div class="next">-->
+<!--<img src="__IMG__/teacher/btn_arrow_right_12_7@2x.png"/>-->
+<!--</div>-->
+<!--</div>-->
+<!--相册展示标题-->
+<div class="course picture">
+    <div class="course_icon">
+        <img src="__IMG__/porsonal/icon_teacher_20_20@2x.png"/>
+    </div>
+    <h2>相册展示</h2>
+    <div class="next">
+        <img src="__IMG__/teacher/btn_arrow_right_12_7@2x.png"/>
+    </div>
+</div>
+<!--相册展示内容-->
+<div class="pic_content">
+    <ul id="xczs_xu">
+    </ul>
+</div>
+<!--老师介绍-->
+<!--老师介绍-->
+<div class="course picture teacher">
+    <h2>品牌介绍</h2>
+    <div class="next">
+        <img src="__IMG__/teacher/btn_arrow_right_12_7@2x.png" onclick="javascript:window.location.href='/wechat/agency/summary/id/{$id}'"/>
+    </div>
+</div>
+<div class="teacher_content">
+    <ul>
+        <li>
+            <span></span>
+            <p id="deathDate"></p>
+        </li>
+        <!--<li>-->
+        <!--<span></span>-->
+        <!--<p>全国15家分校</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<span></span>-->
+        <!--<p>每年1万毕业生</p>-->
+        <!--</li>-->
+    </ul>
+</div>
+
+<!--网友点评 标题-->
+<div id="commentsList_show">
+
+    <div class="course picture review">
+        <div class="course_icon">
+            <img src="__IMG__/teacher/icon_evalute_20_20@2x.png"/>
+        </div>
+        <h2>网友点评</h2>
+        <div class="next">
+            <img src="__IMG__/teacher/btn_arrow_right_12_7@2x.png" onclick="javascript:window.location.href='/wechat/teacher/all_comment/id/{$id}'"/>
+        </div>
+    </div>
+    <!--网友点评内容-->
+
+    <div id="commentsList">
+
+    </div>
+</div>
+
+<!--商家入驻-->
+<div class="shangjia">
+    <p>我是商家，入驻让人气翻倍</p>
+    <ul>
+        <li>
+            <h1>预约</h1>
+            <p>生源增长</p>
+            <b>200%</b>
+            <span></span>
+        </li>
+        <li>
+            <h1>团购</h1>
+            <p>客流提升</p>
+            <b>47.9%</b>
+            <span></span>
+        </li>
+        <li>
+            <h1>促销</h1>
+            <p>曝光增加</p>
+            <b>34.5%</b>
+        </li>
+    </ul>
+</div>
+<!--底部内容-->
+<div class="list_nav">
+    <ul>
+        <li class="active">
+            <div class="write">
+                <img src="__IMG__/teacher/toolbar_btn_writeeval_20_20@2x.png"/>
+            </div>
+            <a href="/wechat/comment/write/id/{$id}">写点评</a>
+            <span></span>
+        </li>
+        <li>
+            <div class="tel">
+                <img src="__IMG__/teacher/toolbar_btn_phone_20_20@2x.png"/>
+            </div>
+            <a id="phone" href="">电话联系</a>
+            <span></span>
+        </li>
+        <li>
+            <div class="focus">
+                <img src="__IMG__/teacher/toolbar_btn_attention_20_20@2x.png"/>
+            </div>
+            <a href="javascript:;" id="guanzhu">关注</a>
+        </li>
+    </ul>
+</div>
+<input type="hidden" id="did" value="">
+<input type="hidden" id="tid" value="">
+
+</body>
+<script>
+    // 隐藏图片 判断图片
+    function imgError(image){
+        console.log();
+        // image.style.display = 'none';
+        // 替换为默认图片
+        image.src = '/favicon.ico';
+    }
+
+
+
+    $(function () {
+
+        var id= $('#id').val();
+
+
+
+
+        $.ajax({
+            type: "GET",
+            url: domain+'/admnxzcmr/teacher/ls.json?degreeId=2&id='+id,
+            cache:true,
+            dataType: "json",
+            success: function(data){
+
+                console.log(data),
+                    $('#did').val(data.aaData[0].customer.degreeId);
+                $('#tid').val(data.aaData[0].customer.teacherTimeId);
+
+
+                $('#changepic').attr('src',data.aaData[0].changepic[0].pictureurl);//头部导航图
+                $('#agency_name').text(data.aaData[0].signame);
+                $('#phone').attr('href','tel:'+data.aaData[0].phone);//电话联系
+                html="";
+                if(data.aaData[0].star==0){
+                    html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                    html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                    html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                    html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                    html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                }else{
+                    for(var m=0;m<data.aaData[0].star;m++){
+                        html+='<li><img src="__IMG__/index/icon_starvaule_select_14_14@2x.png"/></li>'
+                    }
+                    for(var n=data.aaData[0].star;n<5;n++){
+                        html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                    }
+                }
+                $('#star').html(html);
+                lng = $('#lng').val();//经度
+                lat = $('#lat').val();//纬度
+                var distance = parseInt(getFlatternDistance(lat,lng,data.aaData[0].lat,data.aaData[0].lng))/1000;
+                $('#distance').text('距您'+distance+'km');
+                $('#clickRate').text(data.aaData[0].clickRate+'条');
+                $('#formatted_address').text(data.aaData[0].formatted_address);
+                if(data.aaData[0].lessons.length>0){
+                    var lesson_html="";
+
+                    var num4 = 0;
+                    if(data.aaData[0].lessons.length>2){
+                        num4=2
+                    }else {
+                        num4 = data.aaData[0].lessons.length
+                    }
+
+                    for(var i=0;i<num4;i++){
+                        lesson_html+='<a href="/wechat/lesson/index/id/'+id+'/lesson_id/'+data.aaData[0].lessons[i].id+'" class="course_content">';
+                        lesson_html+='<div class="course_img">';
+                        lesson_html+='<img src="'+data.aaData[0].lessons[i].picture+'"/>';
+                        lesson_html+='</div>';
+                        lesson_html+='<div class="course_right">';
+                        lesson_html+='<h1>'+data.aaData[0].lessons[i].name+'</h1>';
+                        if(data.aaData[0].lessons[i].price!=null && data.aaData[0].lessons[i].price != ''){
+                            lesson_html+='<p class="money">￥'+data.aaData[0].lessons[i].vipPrice+'<span>起</span><del class="del">￥'+data.aaData[0].lessons[i].price+'<i>起</i></del></p>';
+                        }
+                        var allows = "";
+                        if(data.aaData[0].lessons[i].allows==0 || data.aaData[0].lessons[i].allows==null){
+                            allows = "人数不限";
+                        }else{
+                            allows = data.aaData[0].lessons[i].allows+"人"
+
+                        }
+                        if(data.aaData[0].lessons[i].catagoryName!=null && data.aaData[0].lessons[i].catagoryName!=""){
+                            lesson_html+='<p>'+data.aaData[0].lessons[i].catagoryName+' | '+data.aaData[0].lessons[i].method+' |'+allows+'</p>';
+                        }else{
+                            lesson_html+='<p>'+data.aaData[0].lessons[i].method+' |'+allows+'</p>';
+                        }
+                        lesson_html+='<div class="more">';
+                        lesson_html+='<img src="__IMG__/teacher/btn_arrow_right_12_7@2x.png"/>';
+                        lesson_html+='</div>';
+                        lesson_html+='</div>';
+                        lesson_html+='</a>';
+                    }
+                    $('#lessons').html(lesson_html);
+                } else {
+                    $('#lessons_show').html('');
+                }
+
+                $('#all_lessons_count').text('全部'+data.aaData[0].lessonNum+'个课程');
+
+
+                //私教
+                if(data.aaData[0].organAlbumFiles.length>0){
+                    var organAlbumFiles = "";
+
+                    var num3 = 0;
+                    if(data.aaData[0].organAlbumFiles.length>2){
+                        num3=2
+                    }else {
+                        num3 = data.aaData[0].organAlbumFiles.length
+                    }
+                    for(var i=0;i<num3;i++){
+                        organAlbumFiles+=' <img src="'+data.aaData[0].organAlbumFiles[i].picVideo+'"/>';
+                    }
+                    $('#pictures').html(organAlbumFiles);
+                } else {
+                    $('#pictures_show').html('');
+                }
+
+                /*******视频课程*********/
+                if(data.aaData[0].videoLesson.length>0){
+                    var all_video_length = 0;
+                    if(data.aaData[0].videoLesson.length>=1){
+                        all_video_length=1;
+                    }
+                    else if(data.aaData[0].videoLesson.length>=2){
+                        all_video_length=2;
+                    }
+                    if(data.aaData[0].videoLesson.length>=4){
+                        all_video_length=3;
+                    }
+
+                    var video_lessons='';
+
+
+                    var num2 = 0;
+                    if(all_video_length>2){
+                        num2=2
+                    }else {
+                        num2 = all_video_length
+                    }
+
+                    for(var i=0;i<num2;i++){
+                        video_lessons+='<a href="/wechat/lesson/video_index/id/'+id+'/lesson_id/'+data.aaData[0].videoLesson[i].id+'" class="video_row">'
+                        video_lessons+='<img src="'+data.aaData[0].videoLesson[i].videoTitlePic+'"/>'
+                        video_lessons+='<p>'+data.aaData[0].videoLesson[i].title+'</p>'
+                        video_lessons+='</a>'
+                    }
+                    $('#video_lessons').html(video_lessons);
+                } else {
+                    $('#video_lessons_show').html('');
+                }
+
+
+                //教师风采
+                if(data.aaData[0].reses.length>0){
+                    var teacher_html = '';
+
+                    if(data.aaData[0].reses.length<4){
+                        num1 = data.aaData[0].reses.length;
+                    }else{
+                        num1 = 4;
+                    }
+                    for(var m=0;m<num1;m++){
+                        teacher_html+='<li>'
+                        teacher_html+='<a href="/wechat/teacher/teacher_detail/id/'+{$id}+'/teacher_id/'+data.aaData[0].reses[m].id+'">'
+
+                        teacher_html+='<img src="'+data.aaData[0].reses[m].picture+'"/>'
+                        teacher_html+='</a>'
+
+                        teacher_html+='<h4>'+data.aaData[0].reses[m].name+'</h4>'
+
+                        var ages =0;
+                        if(data.aaData[0].reses[m].teacherAge ==null){
+                            ages=0;
+                        }else{
+                            ages = data.aaData[0].reses[m].teacherAge;
+                        }
+                        teacher_html+='<p class="red">'+ages+'年教龄</p>'
+//                        teacher_html+='<p>书法国画老师</p>'
+                        teacher_html+='</li>'
+                    }
+                    $('#teachers').html(teacher_html);
+                } else {
+                    $('#teachers_show').html('');
+                }
+
+                /*****评论*********/
+                if(data.aaData[0].commentsList.length>0){
+                    var commentsList_html='';
+                    for(var i=0;i<data.aaData[0].commentsList.length;i++){
+                        commentsList_html+='<div class="review_content">'
+                        commentsList_html+='<a href="/wechat/comment/index/id/'+id+'/comment_id/'+data.aaData[0].commentsList[i].id+'">'
+                        commentsList_html+='<div class="review_content_img">'
+                        commentsList_html+='<img src="'+data.aaData[0].commentsList[i].customerPicture+'" onerror="imgError(this)"/>'
+                        commentsList_html+='</div>'
+                        commentsList_html+='<div class="review_content_ri">'
+                        commentsList_html+='<div class="review_row">'
+                        commentsList_html+='<h1>'+data.aaData[0].commentsList[i].customerName+'</h1>'
+                        //     var month= new Date(data.aaData[0].commentsList[i].addUserTime).getMonth()+1;
+                        // var day= new Date(data.aaData[0].commentsList[i].addUserTime).getDay();
+                        // var date = month+'-'+day;
+                        var date = data.aaData[0].commentsList[i].addUserTime.substring(5,10);
+
+                        commentsList_html+='<p>'+date+'</p>'
+                        commentsList_html+='</div>'
+                        commentsList_html+='<div class="con_pj">'
+                        commentsList_html+='<ul>'
+                        if(data.aaData[0].commentsList[i].levels==0){
+                            commentsList_html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                            commentsList_html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                            commentsList_html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                            commentsList_html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                            commentsList_html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                        }else{
+                            for(var m=0;m<data.aaData[0].commentsList[i].levels;m++){
+                                commentsList_html+='<li><img src="__IMG__/index/icon_starvaule_select_14_14@2x.png"/></li>'
+                            }
+                            for(var n=data.aaData[0].commentsList[i].levels;n<5;n++){
+                                commentsList_html+='<li><img src="__IMG__/index/icon_starvaule_default_14_14@2x.png"/></li>'
+                            }
+                        }
+                        commentsList_html+='</ul>'
+                        commentsList_html+='<span>'+data.aaData[0].commentsList[i].commentCount+'条</span>'
+                        commentsList_html+='</div>'
+                        commentsList_html+='<p>'+data.aaData[0].commentsList[i].summary+'</p>'
+                        //if(data.aaData[0].commentsList[i].picList>0){
+                        if(data.aaData[0].commentsList[i].picList.length>0){
+                            commentsList_html+='<div class="review_pic">'
+                            for(var j=0;j<data.aaData[0].commentsList[i].picList.length;j++){
+                                commentsList_html+='<img src="'+data.aaData[0].commentsList[i].picList[j]+'" />'
+                            }
+                            commentsList_html+='</div>'
+                        }
+                        commentsList_html+='</div>'
+                        commentsList_html+='</a>'
+                        commentsList_html+='</div>'
+                    }
+                    $('#commentsList').html(commentsList_html);
+                } else {
+                    $('#commentsList_show').html('');
+                }
+
+
+
+
+                // var deathDate= new Date(data.aaData[0].deathDate).getFullYear();
+                var deathDate= data.aaData[0].deathDate.substr(0,4);
+
+
+
+                $('#deathDate').html(deathDate+'年创立');//创立时间
+            }
+        });
+
+
+        //点击关注
+        $('#guanzhu').click(function () {
+            $.get({
+                url: '/wechat/index/organCollection',
+                data:{
+                    resourcesId:$('#tid').val(),
+                    collectionTypes:$('#did').val(),
+                    teacherCustomerId:id
+
+                },
+                dataType:"json",
+                success:function (data) {
+                    if(data){
+                        $('#guanzhu').text('已关注');
+                        alert('关注成功');
+
+
+                    }else {
+                        alert('关注失败');
+
+                    }
+
+                }
+            });
+
+        });
+
+    })
+</script>
+
+
+<script>
+    $(function () {
+        var id= $('#id').val();
+        $.ajax({
+            type: "GET",
+            url: domain+'/admnxzcmr/organAlbumFiles/ls.json?degreeId=2&id='+id,
+            cache:true,
+            dataType: "json",
+            success: function(data){
+                var xczs_html = '';
+                //相册展示
+                if(data.aaData[0].picture.length>0){
+                    //if(data.aaData[0].picture.length>0){
+
+                    // if(data.aaData[0].reses.length<4){
+                    //     num1 = data.aaData[0].reses.length;
+                    // }else{
+                    //     num1 = 4;
+                    // }
+                    // for(var m=0;m<num1;m++){
+                    xczs_html+='<li>2</li>';
+                    //     xczs_html+='<img src="'+data.aaData[0].picture+'"/>'
+                    //     xczs_html+='</li>'
+                    // }
+                    alert(2);
+                    $('#xczs_xu').html(xczs_html);
+                } else {
+                    xczs_html+='<li>1</li>';
+                    alert(1);
+                    $('#xczs_xu').html(xczs_html);
+                }
+
+            }
+</script>
+</html>

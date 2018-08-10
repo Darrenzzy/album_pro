@@ -1,0 +1,163 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>新增民宿</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" name="add" id="add" method="post" action="{:url('add')}">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">名宿名称：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="title" type="text" class="form-control" name="title" value="">
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">地址：</label>
+                            <div class="input-group col-sm-2" style="float: left">
+                                <input id="province" name="province" class="form-control" placeholder="都、道、府、县">
+                            </div>
+
+                            <div class="input-group col-sm-2" style="float: left;margin-left: 10px;">
+                                <input id="city" name="city" class="form-control" placeholder="请输入城市名称">
+                            </div>
+                        </div>
+
+                        <div class="bright">
+                            <div class="form-group bright_info">
+                            <div class="hr-line-dashed"></div>
+                                <label class="col-sm-3 control-label">房屋亮点：</label>
+                                <div class="input-group col-sm-4" style="float: left">
+                                    <input id="bright" type="text" class="form-control" name="bright[]" value="">
+                                </div>
+                                <button class="layui-btn bright_remove layui-btn-danger" style="float: left;height: 33px;margin-left: 5px">
+                                    <i class="layui-icon">&#x1006;</i></button>
+                                <button class="layui-btn bright_add" style="float: left;height: 33px;margin-left: 5px">
+                                    <i class="layui-icon">&#xe608;</i></button>
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label " for="myEditor">房屋描述：</label>
+                            <div class="input-group col-sm-9">
+                                <script src="/static/admin/ueditor/ueditor.config.js" type="text/javascript"></script>
+                                <script src="/static/admin/ueditor/ueditor.all.js" type="text/javascript"></script>
+                                <textarea name="description" style="width:90%" id="myEditor"></textarea>
+                                <script type="text/javascript">
+                                    var editor = new UE.ui.Editor();
+                                    editor.render("myEditor");
+                                </script>
+                            </div>
+                        </div>
+                        
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">状&nbsp;态：</label>
+                            <div class="col-sm-6">
+                                <div class="radio i-checks">
+                                    <input type="radio" name='status' value="1" checked/>开启&nbsp;&nbsp;
+                                    <input type="radio" name='status' value="0"/>停用
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="javascript:history.go(-1);"><i class="fa fa-close"></i>
+                                    返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+
+    /**
+     * 添加亮点
+     */
+    $('body').on('click','.bright_add',function () {
+        var html = $('.bright').html();
+        $('.bright').after(html);
+        return false;
+    });
+
+    $('body').on('click','.bright_remove',function () {
+        var length = $('.bright_remove').length;
+        if(length<=1){
+            return false;
+        }
+        $(this).parent().remove();
+        return false;
+    });
+
+
+    $(function () {
+        $('#add').ajaxForm({
+            beforeSubmit: checkForm,
+            success: complete,
+            dataType: 'json'
+        });
+
+        function checkForm() {
+            if ('' == $.trim($('#title').val())) {
+                layer.msg('请输入名宿名称', {icon: 2, time: 1500, shade: 0.1}, function (index) {
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+
+        function complete(data) {
+            if (data.code == 1) {
+                layer.msg(data.msg, {icon: 6, time: 1500, shade: 0.1}, function (index) {
+                    window.location.href = "{:url('house_booking/index')}";
+                });
+            } else {
+                layer.msg(data.msg, {icon: 5, time: 1500, shade: 0.1});
+                return false;
+            }
+        }
+
+    });
+
+
+    //IOS开关样式配置
+    var elem = document.querySelector('.js-switch');
+    var switchery = new Switchery(elem, {
+        color: '#1AB394'
+    });
+    var config = {
+        '.chosen-select': {},
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+
+</script>
+</body>
+</html>

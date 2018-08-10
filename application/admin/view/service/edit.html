@@ -1,0 +1,182 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>编辑服务设施</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" name="edit" id="edit" method="post" action="{:url('edit')}">
+                        <input type="hidden" name="id" value="{$service.id}">
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">服务类型：</label>
+                            <div class="input-group col-sm-4">
+                                <select class="form-control m-b chosen-select" name="tid" id="tid">
+                                    <option value="">==请选择==</option>
+                                    {if !empty($types)}
+                                    {foreach name="types" item="vo"}
+                                    <option value="{$vo.id}" {if condition="$service['tid'] eq $vo['id']"}selected{/if}>{$vo.title}</option>
+                                    {/foreach}
+                                    {/if}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">服务设施：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="title" type="text" class="form-control" name="title" value="{$service.title}">
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">图片：</label>
+                            <div class="input-group col-sm-4">
+                                <input type="hidden" id="service_pic" name="pic" value="">
+                                <div id="fileList" class="uploader-list" style="float:right"></div>
+                                <button type="button" class="layui-btn" id="pic" style="float:left">
+                                    上传图片
+                                </button>
+                                <div style="width:50%;color: #999;margin-left:115px;margin-top:-15px;">
+                                    建议图片尺寸为20*25
+                                </div>
+                                <img id="img_data"  style="float:left;margin-left: 150px;margin-top: 0px;" src="/uploads/images/{$service.pic}"/>
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">排序：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="sort" type="text" class="form-control" name="sort" value="{$service.sort}">
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">状&nbsp;态：</label>
+                            <div class="col-sm-6">
+                                <div class="radio i-checks">
+                                    <input type="radio" name='status' value="1" {if condition="$service['status'] eq 1 "}checked{/if}/>开启&nbsp;&nbsp;
+                                    <input type="radio" name='status' value="0" {if condition="$service['status'] eq 0 "}checked{/if}/>关闭
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-3">
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> 保存</button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-danger" href="javascript:history.go(-1);"><i class="fa fa-close"></i> 返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script type="text/javascript">
+
+
+    layui.use('upload', function(){
+        var upload = layui.upload;
+
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#pic' //绑定元素
+            ,url: "{:url('Upload/uploadImage')}" //上传接口
+            ,data:{'position':'/images'}
+            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                layer.load(); //上传loading
+            }
+            ,done: function(res){
+                $("#service_pic").val(res.src);
+                $("#img_data").attr('src', '/uploads/images/' + res.src).show();
+                layer.closeAll('loading'); //关闭loading
+            }
+            ,error: function(index, upload){
+                layer.closeAll('loading'); //关闭loading
+            }
+        });
+    });
+
+    $(function(){
+        $('#edit').ajaxForm({
+            beforeSubmit: checkForm,
+            success: complete,
+            dataType: 'json'
+        });
+
+        function checkForm(){
+
+            if( '' == $.trim($('#tid').val())){
+                layer.msg('请选择服务类型',{icon:2,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+
+            if( '' == $.trim($('#title').val())){
+                layer.msg('请输入服务设施',{icon:2,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+
+            if( '' == $.trim($('#service_pic').val())){
+                layer.msg('请上传服务设施图片',{icon:2,time:1500,shade: 0.1}, function(index){
+                    layer.close(index);
+                });
+                return false;
+            }
+        }
+
+
+        function complete(data){
+            if(data.code==1){
+                layer.msg(data.msg, {icon: 6,time:1500,shade: 0.1}, function(index){
+                    window.location.href="{:url('service/index')}";
+                });
+            }else{
+                layer.msg(data.msg, {icon: 5,time:1500,shade: 0.1});
+                return false;
+            }
+        }
+
+    });
+
+
+
+    //IOS开关样式配置
+    var elem = document.querySelector('.js-switch');
+    var switchery = new Switchery(elem, {
+        color: '#1AB394'
+    });
+    var config = {
+        '.chosen-select': {},
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
+
+</script>
+</body>
+</html>

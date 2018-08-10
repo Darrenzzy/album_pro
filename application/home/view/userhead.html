@@ -1,0 +1,33 @@
+{if condition="$user.head != ''"}
+<div class="grxxtou uploader">
+
+    <img src="{$user.head}" style="width: 100%;height: 100%;">
+    <input id="file1" class="file-0" type="file" name="photo" size="30"
+           onchange="javascript:setImagePreview(this);" accept="image/*" capture="camera"
+           style="width: 7rem;left: 35%; height: 7rem;"/>
+</div>
+<h5>欢迎您：{$user.username} &nbsp&nbsp
+    {if $user.tel neq ''}
+    Tel:{$user.tel}
+    {/if}
+</h5>
+{else/}
+
+<div class="iconfont  aqt-text logintou uploader" id="touxiang">
+    <!--<a style="font-size: 4rem;" class="iconfont">&#xe61b;</a>-->
+    <img src="{$user.head}" style="width: 100%;height: 100%;" class=""/>
+
+    <input id="file0" class="file-0" type="file" name="photo" size="30"
+           onchange="javascript:setImagePreview(this);" accept="image/*" capture="camera"
+           style="width: 7rem; height: 7rem;"/>
+</div>
+<h5>{$user.username} &nbsp&nbsp Tel:{$user.tel}</h5>
+{/if}
+
+<div class="yulan0">
+    <img src="" id="img0" class="img">
+    <div class="enter">
+        <div class="btn-2 aqt-fl">取消</div>
+        <button type="submit" class="btn-3 aqt-fr" id="btn-0">确定</button>
+    </div>
+</div>

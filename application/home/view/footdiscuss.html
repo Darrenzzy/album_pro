@@ -1,0 +1,78 @@
+<style type="text/css">
+
+
+    .iconfont {
+        font-family: "iconfont" !important;
+        font-size: 16px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-stroke-width: 0.2px;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    @font-face {
+        font-family: 'iconfont';
+        src: url('__geren__/shiliang/iconfont.eot');
+        src: url('__geren__/shiliang/iconfont.eot?#iefix') format('embedded-opentype'),
+        url('__geren__/shiliang/iconfont.woff') format('woff'),
+        url('__geren__/shiliang/iconfont.ttf') format('truetype'),
+        url('__geren__/shiliang/iconfont.svg#iconfont') format('svg');
+    }
+</style>
+<div style="width: 100%; height: 3.8rem;"></div>
+
+<nav class="bar__tab">
+    <div class="bar__tabs">
+        <!--<a href="{:url('index/comment')}"  class="bar__tab__item router-link-exact-active activated">-->
+        <span  class="bar__tab__item router-link-exact-active activated">
+            <!--<svg aria-hidden="true" class="icon-font icon-find">-->
+            <!--<use xlink:href="#icon-find"></use>-->
+            <!--</svg>-->
+            <!--<i class="icon iconfont" style="margin: 0 5px;">&#xe8b4;</i>-->
+            <!--<span class="tab-label">我也评论</span>-->
+
+
+            <input style="    line-height: 2.5rem;
+    height: 2.5rem;
+    width: 70%;
+    border: 0.1rem solid #219c8b;
+    border-radius: 1rem;
+    padding-left: 1rem;" name="note" id="note" placeholder="登陆后，填写评论"  />
+
+
+{if $login eq 0}
+            <button  onclick="window.location.href='/home/Weixin/get_authorize_url'" style="     line-height: 2.5rem;
+    height: 2.5rem;
+   padding: 0 5px;
+    border-radius: 1rem;
+    color: #fff;
+    background-color: #28b7a3;
+    margin-left: 1rem;">未登录</button>
+            {else/}
+            <button id="submit" style="     line-height: 2.5rem;
+    height: 2.5rem;
+ padding: 0 5px;
+    border-radius: 1rem;
+    color: #fff;
+    background-color: #28b7a3;
+    margin-left: 1rem;">提交</button>
+            {/if}
+
+
+
+        </span>
+
+        <!--<a href="{:url('index/personal')}" class="bar__tab__item">-->
+            <!--&lt;!&ndash;<svg aria-hidden="true" class="icon-font icon-mine">&ndash;&gt;-->
+            <!--&lt;!&ndash;<use xlink:href="#icon-mine"></use>&ndash;&gt;-->
+            <!--&lt;!&ndash;</svg>&ndash;&gt;-->
+            <!--<i class="icon iconfont" style="margin: 0 5px;">&#xe61b;</i>-->
+            <!--<span class="tab-label">我的</span>-->
+        <!--</a>-->
+    </div>
+    <div class="fix-iphone-x-box"></div>
+</nav>
+
+
+<script type="text/javascript" async="" src="__PUB__/is_img.js"></script>
+{include file="footer" /}
